@@ -10,9 +10,9 @@ Config.XPPerLevel = 100   -- XP needed to level up
 -- Items per level when completing at FINAL CONTACT
 -- define here what each level delivers
 Config.LevelRewards = {
-    [1] = {item = 'produtolimpeza', quantity = 5},
-    [2] = {item = 'produtolimpeza2', quantity = 10},
-    [3] = {item = 'produtolimpeza3', quantity = 15},
+    [1] = {item = 'dirty_money', quantity = 5},
+    [2] = {item = 'dirty_money', quantity = 10},
+    [3] = {item = 'dirty_money', quantity = 15},
 }
 
 Config.RequiredFinalItem = 'paint_stripper'
