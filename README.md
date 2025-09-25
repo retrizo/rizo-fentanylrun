@@ -7,7 +7,7 @@
 
 ## ✨ Overview
 This script is part of the *Inspired Series* — small projects recreating mechanics I’ve experienced on large servers to test ideas and learn from their design.  
-The goal here is a short but intense mission: gather a large amount of drugs, secure the load, and deliver it in an armored car.
+The goal here is a short but intense mission: gather a large amount of drugs, secure the load, and deliver it in an armored car. You load up a large quantity of drugs (you decide what kind and how much), then you take an armored car. This armored car has a tracking device, and you have to wait for the vehicle's tracker to disappear. The track informs the police of the location of the armored car in blips that update depending on the time you set. Once the tracker disappears, you receive a new delivery location for the product and receive your reward.
 
 ---
 
