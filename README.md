@@ -27,10 +27,6 @@ Follow these steps to set it up:
 
 - ✅ Place the script files in your `resources` folder.
 - ✅ Import the SQL table:  
-```sql
--- example
-SOURCE fenrun_xp.sql;
-```
 - ✅ Adjust `config.lua` to match your server’s settings (spawn points, values, timers, items).
 - ✅ Add the resource to your `server.cfg`:
 ```cfg
