@@ -4,6 +4,12 @@
 > Script inspired by top-tier server experiences (like NoPixel). The player collects a large batch of drugs and makes a single high-risk delivery using an armored vehicle — simple, tense, and rewarding.
 
 ---
+## Preview 
+
+- 🎥 What the script looks like
+- https://youtu.be/Ql2U45I2ljo
+
+---
 
 ## ✨ Overview
 This script is part of the *Inspired Series* — small projects recreating mechanics I’ve experienced on large servers to test ideas and learn from their design.  
