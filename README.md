@@ -34,6 +34,7 @@ Follow these steps to set it up:
 - ✅ Place the script files in your `resources` folder.
 - ✅ Import the SQL table:  
 - ✅ Adjust `config.lua` to match your server’s settings (spawn points, values, timers, items).
+- ✅ modify the `fxmanifest` to adjust your framework
 - ✅ Add the resource to your `server.cfg`:
 ```cfg
 ensure rizo-fentanylrun
@@ -62,7 +63,7 @@ ensure rizo-fentanylrun
 ---
 
 ## 📌 Quick Checklist Before Running
-- [ ] `QBcore` / `Qbox` running on the server  
+- [ ] `QBcore` / `Qbox` / `ESX` running on the server  
 - [ ] `ox_lib` and `ox_inventory` installed and working  
 - [ ] `fenrun_xp.sql` imported into database  
 - [ ] `config.lua` reviewed and adjusted  
