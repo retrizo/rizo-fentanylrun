@@ -1,5 +1,8 @@
 Config = {}
 
+-- Framework setting
+Config.Framework = 'qbcore' -- 'qbcore' for QBCore/QBox or 'esx' for ESX
+
 -- Locale setting
 Config.Locale = 'en' -- You can edit all the texts to you language in locales.lua
 
@@ -10,9 +13,9 @@ Config.XPPerLevel = 100   -- XP needed to level up
 -- Items per level when completing at FINAL CONTACT
 -- define here what each level delivers
 Config.LevelRewards = {
-    [1] = {item = 'dirty_money', quantity = 5},
-    [2] = {item = 'dirty_money', quantity = 10},
-    [3] = {item = 'dirty_money', quantity = 15},
+    [1] = {item = 'produtolimpeza', quantity = 5},
+    [2] = {item = 'produtolimpeza2', quantity = 10},
+    [3] = {item = 'produtolimpeza3', quantity = 15},
 }
 
 Config.RequiredFinalItem = 'paint_stripper'
@@ -108,7 +111,7 @@ Config.Guard = {
     leashRadius = 25.0
 }
 
-Config.TrackerDuration = 1200 -- The duration of the tracker in seconds.
+Config.TrackerDuration = 60 -- The duration of the tracker in seconds.
 
 -- === POLICE DISPATCH ===
 -- Choose your dispatch system by uncommenting ONE of the options below
