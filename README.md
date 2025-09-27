@@ -20,7 +20,7 @@ The goal here is a short but intense mission: gather a large amount of drugs, se
 ## 🔗 Dependencies
 | Required | Notes |
 |---:|---|
-| `QBcore` / `Qbox` | Works with either framework |
+| `QBcore` / `Qbox` / `esx`| Works with either framework |
 | `ox_lib` | Used for menus, notifications, helpers |
 | `ox_inventory` | Expected inventory system |
 
