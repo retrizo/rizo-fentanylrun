@@ -1,4 +1,11 @@
-local QBCore = exports['qb-core']:GetCoreObject()
+-- Framework detection
+local QBCore, ESX = nil, nil
+if Config.Framework == 'qbcore' then
+    QBCore = exports['qb-core']:GetCoreObject()
+elseif Config.Framework == 'esx' then
+    ESX = exports['es_extended']:getSharedObject()
+end
+
 local DEBUG_ROUTE = false
 local CASE_INSENSITIVE = true
 local StashItemCount = {}  -- [stashId] = integer
@@ -54,14 +61,27 @@ end
 -- Use Config values for consistency
 
 local function getIdentifier(src)
-    -- id Qbox/QBCore (same standard you already use)
-    if GetResourceState('qb-core') == 'started' then
-        local ok, result = pcall(function()
-            local Player = exports['qb-core']:GetCoreObject().Functions.GetPlayer(src)
-            return Player and Player.PlayerData and Player.PlayerData.citizenid
-        end)
-        if ok and result then return result end
+    if Config.Framework == 'qbcore' then
+        -- QBCore/QBox identifier
+        if QBCore then
+            local ok, result = pcall(function()
+                local Player = QBCore.Functions.GetPlayer(src)
+                return Player and Player.PlayerData and Player.PlayerData.citizenid
+            end)
+            if ok and result then return result end
+        end
+    elseif Config.Framework == 'esx' then
+        -- ESX identifier
+        if ESX then
+            local ok, result = pcall(function()
+                local xPlayer = ESX.GetPlayerFromId(src)
+                return xPlayer and xPlayer.identifier
+            end)
+            if ok and result then return result end
+        end
     end
+
+    -- Fallback to license identifier
     for _, id in ipairs(GetPlayerIdentifiers(src)) do
         if id:find('license:') then return id end
     end
@@ -135,9 +155,18 @@ end)
 
 
 local function getStashIdFromSrc(src)
-    local player = QBCore.Functions.GetPlayer(src)
-    if not player then return nil end
-    return ('fentanyl_stash_%s'):format(player.PlayerData.citizenid)
+    if Config.Framework == 'qbcore' then
+        if not QBCore then return nil end
+        local player = QBCore.Functions.GetPlayer(src)
+        if not player then return nil end
+        return ('fentanyl_stash_%s'):format(player.PlayerData.citizenid)
+    elseif Config.Framework == 'esx' then
+        if not ESX then return nil end
+        local xPlayer = ESX.GetPlayerFromId(src)
+        if not xPlayer then return nil end
+        return ('fentanyl_stash_%s'):format(xPlayer.identifier:gsub('license:', ''))
+    end
+    return nil
 end
 
 -- ensures stash exists (idempotent)
@@ -555,19 +584,42 @@ RegisterNetEvent('rizo-fentanylroute:markVehicleForPolice', function(netId)
     -- Just forward to police officers; client validates entity existence before creating blip.
 
     local ms = math.max(1, (Config.TrackerDuration or 60)) * 1000
-    local players = QBCore.Functions.GetPlayers()
 
-    for _, pid in ipairs(players) do
-        local p = QBCore.Functions.GetPlayer(pid)
-        if p and p.PlayerData and p.PlayerData.job then
-            local job = p.PlayerData.job.name
-            -- Check if job is in the configured police jobs list
-            local dispatchSystem = Config.DispatchSystems[Config.PoliceDispatch.type]
-            if dispatchSystem and dispatchSystem.jobs then
-                for _, policeJob in ipairs(dispatchSystem.jobs) do
-                    if job == policeJob then
-                        TriggerClientEvent('rizo-fentanylroute:createPoliceBlipOnVehicle', pid, netId, ms)
-                        break
+    if Config.Framework == 'qbcore' then
+        if not QBCore then return end
+        local players = QBCore.Functions.GetPlayers()
+
+        for _, pid in ipairs(players) do
+            local p = QBCore.Functions.GetPlayer(pid)
+            if p and p.PlayerData and p.PlayerData.job then
+                local job = p.PlayerData.job.name
+                -- Check if job is in the configured police jobs list
+                local dispatchSystem = Config.DispatchSystems[Config.PoliceDispatch.type]
+                if dispatchSystem and dispatchSystem.jobs then
+                    for _, policeJob in ipairs(dispatchSystem.jobs) do
+                        if job == policeJob then
+                            TriggerClientEvent('rizo-fentanylroute:createPoliceBlipOnVehicle', pid, netId, ms)
+                            break
+                        end
+                    end
+                end
+            end
+        end
+    elseif Config.Framework == 'esx' then
+        if not ESX then return end
+        local players = ESX.GetExtendedPlayers()
+
+        for _, xPlayer in pairs(players) do
+            if xPlayer then
+                local job = xPlayer.job.name
+                -- Check if job is in the configured police jobs list
+                local dispatchSystem = Config.DispatchSystems[Config.PoliceDispatch.type]
+                if dispatchSystem and dispatchSystem.jobs then
+                    for _, policeJob in ipairs(dispatchSystem.jobs) do
+                        if job == policeJob then
+                            TriggerClientEvent('rizo-fentanylroute:createPoliceBlipOnVehicle', xPlayer.source, netId, ms)
+                            break
+                        end
                     end
                 end
             end
