@@ -22,5 +22,6 @@ dependencies {
     'ox_lib',
     'ox_target',
     'ox_inventory',
-    'qb-core' -- or qbx_core
+    'qb-core', -- or qbx_core
+    'es_extended'
 }
